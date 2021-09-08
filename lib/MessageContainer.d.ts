@@ -30,6 +30,7 @@ export interface MessageContainerProps<TMessage extends IMessage> {
 }
 interface State {
     showScrollBottom: boolean;
+    hasScrolled: boolean;
 }
 export default class MessageContainer<TMessage extends IMessage = IMessage> extends React.PureComponent<MessageContainerProps<TMessage>, State> {
     static defaultProps: {
@@ -66,7 +67,7 @@ export default class MessageContainer<TMessage extends IMessage = IMessage> exte
         inverted: PropTypes.Requireable<boolean>;
         loadEarlier: PropTypes.Requireable<boolean>;
         invertibleScrollViewProps: PropTypes.Requireable<object>;
-        extraData: PropTypes.Requireable<any[]>;
+        extraData: PropTypes.Requireable<object>;
         scrollToBottom: PropTypes.Requireable<boolean>;
         scrollToBottomOffset: PropTypes.Requireable<number>;
         scrollToBottomComponent: PropTypes.Requireable<(...args: any[]) => any>;
@@ -76,12 +77,8 @@ export default class MessageContainer<TMessage extends IMessage = IMessage> exte
     };
     state: {
         showScrollBottom: boolean;
+        hasScrolled: boolean;
     };
-    componentDidMount(): void;
-    componentWillUnmount(): void;
-    componentDidUpdate(prevProps: MessageContainerProps<TMessage>): void;
-    attachKeyboardListeners: () => void;
-    detachKeyboardListeners: () => void;
     renderTypingIndicator: () => JSX.Element | null;
     renderFooter: () => {} | null | undefined;
     renderLoadEarlier: () => {} | null | undefined;

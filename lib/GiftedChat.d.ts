@@ -18,7 +18,7 @@ import MessageContainer from './MessageContainer';
 import Send from './Send';
 import Time from './Time';
 import GiftedAvatar from './GiftedAvatar';
-import { IMessage, User, Reply, LeftRightStyle } from './Models';
+import { IMessage, User, Reply, LeftRightStyle, MessageVideoProps, MessageAudioProps } from './Models';
 import QuickReplies from './QuickReplies';
 export interface GiftedChatProps<TMessage extends IMessage = IMessage> {
     messages?: TMessage[];
@@ -75,13 +75,15 @@ export interface GiftedChatProps<TMessage extends IMessage = IMessage> {
     onLoadEarlier?(): void;
     renderLoading?(): React.ReactNode;
     renderLoadEarlier?(props: LoadEarlier['props']): React.ReactNode;
-    renderAvatar?(props: Avatar<TMessage>['props']): React.ReactNode;
+    renderAvatar?(props: Avatar<TMessage>['props']): React.ReactNode | null;
     renderBubble?(props: Bubble<TMessage>['props']): React.ReactNode;
     renderSystemMessage?(props: SystemMessage<TMessage>['props']): React.ReactNode;
     onLongPress?(context: any, message: any): void;
     renderMessage?(message: Message<TMessage>['props']): React.ReactNode;
     renderMessageText?(messageText: MessageText<TMessage>['props']): React.ReactNode;
     renderMessageImage?(props: MessageImage<TMessage>['props']): React.ReactNode;
+    renderMessageVideo?(props: MessageVideoProps<TMessage>): React.ReactNode;
+    renderMessageAudio?(props: MessageAudioProps<TMessage>): React.ReactNode;
     renderCustomView?(props: Bubble<TMessage>['props']): React.ReactNode;
     renderDay?(props: Day<TMessage>['props']): React.ReactNode;
     renderTime?(props: Time<TMessage>['props']): React.ReactNode;
@@ -145,6 +147,8 @@ declare class GiftedChat<TMessage extends IMessage = IMessage> extends React.Com
         renderMessage: null;
         renderMessageText: null;
         renderMessageImage: null;
+        renderMessageVideo: null;
+        renderMessageAudio: null;
         imageProps: {};
         videoProps: {};
         audioProps: {};
@@ -165,7 +169,7 @@ declare class GiftedChat<TMessage extends IMessage = IMessage> extends React.Com
         renderAccessory: null;
         isKeyboardInternallyHandled: boolean;
         onPressActionButton: null;
-        bottomOffset: number;
+        bottomOffset: null;
         minInputToolbarHeight: number;
         keyboardShouldPersistTaps: string;
         onInputTextChanged: null;
@@ -252,6 +256,7 @@ declare class GiftedChat<TMessage extends IMessage = IMessage> extends React.Com
     invertibleScrollViewProps: any;
     _actionSheetRef: any;
     _messageContainerRef?: RefObject<FlatList<IMessage>>;
+    _isTextInputWasFocused: boolean;
     textInput?: any;
     state: {
         isInitialized: boolean;
@@ -298,7 +303,19 @@ declare class GiftedChat<TMessage extends IMessage = IMessage> extends React.Com
      * Returns the height, based on current window size, taking the keyboard into account.
      */
     getMessagesContainerHeightWithKeyboard(composerHeight?: number | undefined): number;
-    safeAreaSupport: (bottomOffset: number) => number;
+    safeAreaSupport: (bottomOffset?: number | undefined) => number;
+    /**
+     * Store text input focus status when keyboard hide to retrieve
+     * it after wards if needed.
+     * `onKeyboardWillHide` may be called twice in sequence so we
+     * make a guard condition (eg. showing image picker)
+     */
+    handleTextInputFocusWhenKeyboardHide(): void;
+    /**
+     * Refocus the text input only if it was focused before showing keyboard.
+     * This is needed in some cases (eg. showing image picker).
+     */
+    handleTextInputFocusWhenKeyboardShow(): void;
     onKeyboardWillShow: (e: any) => void;
     onKeyboardWillHide: (_e: any) => void;
     onKeyboardDidShow: (e: any) => void;

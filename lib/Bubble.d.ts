@@ -30,6 +30,7 @@ export interface BubbleProps<TMessage extends IMessage> {
     containerToPreviousStyle?: LeftRightStyle<ViewStyle>;
     usernameStyle?: TextStyle;
     quickReplyStyle?: StyleProp<ViewStyle>;
+    onPress?(context?: any, message?: any): void;
     onLongPress?(context?: any, message?: any): void;
     onQuickReply?(replies: Reply[]): void;
     renderMessageImage?(props: RenderMessageImageProps<TMessage>): React.ReactNode;
@@ -49,6 +50,7 @@ export default class Bubble<TMessage extends IMessage = IMessage> extends React.
     };
     static defaultProps: {
         touchableProps: {};
+        onPress: null;
         onLongPress: null;
         renderMessageImage: null;
         renderMessageVideo: null;
@@ -121,6 +123,7 @@ export default class Bubble<TMessage extends IMessage = IMessage> extends React.
             right: PropTypes.Requireable<number | boolean | object>;
         }>>;
     };
+    onPress: () => void;
     onLongPress: () => void;
     styledBubbleToNext(): (false | ViewStyle | import("react-native").RegisteredStyle<ViewStyle> | import("react-native").RecursiveArray<false | ViewStyle | import("react-native").RegisteredStyle<ViewStyle> | null | undefined> | {
         borderBottomLeftRadius: number;

@@ -13,7 +13,7 @@ export interface ComposerProps {
     multiline?: boolean;
     disableComposer?: boolean;
     onTextChanged?(text: string): void;
-    onInputSizeChanged?(contentSize: {
+    onInputSizeChanged?(layout: {
         width: number;
         height: number;
     }): void;
@@ -47,11 +47,11 @@ export default class Composer extends React.Component<ComposerProps> {
         textInputAutoFocus: PropTypes.Requireable<boolean>;
         keyboardAppearance: PropTypes.Requireable<string>;
     };
-    contentSize?: {
+    layout?: {
         width: number;
         height: number;
     };
-    onContentSizeChange: (e: any) => void;
+    onLayout: (e: any) => void;
     onChangeText: (text: string) => void;
     render(): JSX.Element;
 }

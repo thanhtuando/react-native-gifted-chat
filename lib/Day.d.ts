@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { PureComponent } from 'react';
-import { StyleProp, ViewStyle, TextStyle } from 'react-native';
+import { StyleProp, ViewStyle, TextStyle, TextProps } from 'react-native';
 import { IMessage } from './Models';
 export interface DayProps<TMessage extends IMessage> {
     currentMessage?: TMessage;
@@ -9,6 +9,7 @@ export interface DayProps<TMessage extends IMessage> {
     containerStyle?: StyleProp<ViewStyle>;
     wrapperStyle?: StyleProp<ViewStyle>;
     textStyle?: StyleProp<TextStyle>;
+    textProps?: TextProps;
     dateFormat?: string;
     inverted?: boolean;
 }
@@ -25,6 +26,7 @@ export default class Day<TMessage extends IMessage = IMessage> extends PureCompo
         containerStyle: {};
         wrapperStyle: {};
         textStyle: {};
+        textProps: {};
         dateFormat: string;
     };
     static propTypes: {
@@ -35,6 +37,7 @@ export default class Day<TMessage extends IMessage = IMessage> extends PureCompo
         containerStyle: PropTypes.Requireable<number | boolean | object>;
         wrapperStyle: PropTypes.Requireable<number | boolean | object>;
         textStyle: PropTypes.Requireable<number | boolean | object>;
+        textProps: PropTypes.Requireable<object>;
         dateFormat: PropTypes.Requireable<string>;
     };
     render(): JSX.Element | null;

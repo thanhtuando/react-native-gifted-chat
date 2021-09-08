@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { ViewStyle } from 'react-native';
+import { ViewStyle, LayoutChangeEvent } from 'react-native';
 import Avatar from './Avatar';
 import Bubble from './Bubble';
 import SystemMessage from './SystemMessage';
@@ -21,6 +21,7 @@ export interface MessageProps<TMessage extends IMessage> {
     renderSystemMessage?(props: SystemMessage['props']): React.ReactNode;
     renderAvatar?(props: Avatar['props']): React.ReactNode;
     shouldUpdateMessage?(props: MessageProps<IMessage>, nextProps: MessageProps<IMessage>): boolean;
+    onMessageLayout?(event: LayoutChangeEvent): void;
 }
 export default class Message<TMessage extends IMessage = IMessage> extends React.Component<MessageProps<TMessage>> {
     static defaultProps: {
@@ -37,6 +38,7 @@ export default class Message<TMessage extends IMessage = IMessage> extends React
         showUserAvatar: boolean;
         inverted: boolean;
         shouldUpdateMessage: undefined;
+        onMessageLayout: undefined;
     };
     static propTypes: {
         renderAvatar: PropTypes.Requireable<(...args: any[]) => any>;
@@ -55,6 +57,7 @@ export default class Message<TMessage extends IMessage = IMessage> extends React
             right: PropTypes.Requireable<number | boolean | object>;
         }>>;
         shouldUpdateMessage: PropTypes.Requireable<(...args: any[]) => any>;
+        onMessageLayout: PropTypes.Requireable<(...args: any[]) => any>;
     };
     shouldComponentUpdate(nextProps: MessageProps<TMessage>): boolean;
     renderDay(): {} | null | undefined;
