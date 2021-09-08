@@ -18,14 +18,14 @@ export { SystemMessageProps } from './SystemMessage';
 export { TimeProps } from './Time';
 export declare type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
 export interface LeftRightStyle<T> {
-    left?: StyleProp<T>;
-    right?: StyleProp<T>;
+    left: StyleProp<T>;
+    right: StyleProp<T>;
 }
 declare type renderFunction = (x: any) => JSX.Element;
 export interface User {
     _id: string | number;
     name?: string;
-    avatar?: string | number | renderFunction;
+    avatar?: string | renderFunction;
 }
 export interface Reply {
     title: string;
